@@ -13,8 +13,17 @@ form.addEventListener('submit', (event) => {
 });
 
 socket.on("chat message", (msg) => {
+    addNewLineOnChat(msg);
+    
+});
+
+socket.on("chat event", (msg) => {
+    addNewLineOnChat(msg);
+})
+
+function addNewLineOnChat(content) {
     let item = document.createElement('li');
-    item.textContent = msg;
+    item.textContent = content;
     messages.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
-});
+}
