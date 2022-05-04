@@ -14,7 +14,7 @@ let userList = [];
 let messageList = [];
 
 io.on("connection", (socket) => {
-    socket.broadcast.emit("chat event", "someone conected");
+    // socket.broadcast.emit("chat event", {"someone conected"});
 
     socket.emit("message list", {messageList});
 
@@ -33,9 +33,8 @@ io.on("connection", (socket) => {
 
         data.createdAt = d;
         
-        
         if(userList.find(user => user.nickname == data.author)) {
-            io.emit("chat message", {author: data.author, msg: data.msg, createdAt: data.createdAt});
+            socket.broadcast.emit("chat message", {author: data.author, msg: data.msg, createdAt: data.createdAt});
             messageList.push(data);
         } else {
             data = {
@@ -43,7 +42,6 @@ io.on("connection", (socket) => {
                 msg: 'Nickname não registrado corretamente.',
                 createdAt: d
             };
-            messageList.push(data);
             socket.emit('chat message', data);            
         }
     })

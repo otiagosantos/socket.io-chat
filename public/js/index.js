@@ -17,6 +17,10 @@ form.addEventListener('submit', (event) => {
     event.preventDefault();
     if(input.value) {
         socket.emit("chat message", {author: LoggedAs, msg: input.value});
+
+        const d = new Date();
+        addNewLineOnChat({author: LoggedAs, msg: input.value, createdAt: d});
+        
         input.value = '';
     }
 });
