@@ -17,6 +17,11 @@ let tip = document.querySelector(".tip");
 let tipMessage = document.querySelector(".tip p");
 let typingTimer = 0;
 
+let onlineUsersButton = document.querySelector("#online-users-btn");
+
+let onlineUsersModal = document.querySelector("#online-users-modal");
+let onlineUsersUlModal = document.querySelector("#online-users-modal ul");
+
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     if(input.value) {
@@ -32,15 +37,25 @@ form.addEventListener('submit', (event) => {
 userForm.addEventListener('submit', (event) => {
     event.preventDefault();
     if(nicknameInput.value) {
+        if(LoggedAs){
+            socket.disconnect();
+            socket.connect();
+        }
+
         socket.emit("new nickname", nicknameInput.value);
         LoggedAs = nicknameInput.value;
         nicknameInput.value = '';
+        renderOnlineUsers();
     }
 });
 
 
 input.addEventListener('keyup', () => {
     socket.emit("user is typing");
+});
+
+onlineUsersButton.addEventListener("click", (event) => {
+    onlineUsersModal.hidden = !onlineUsersModal.hidden;
 });
 
 socket.on("chat message", (data) => {
@@ -51,10 +66,6 @@ socket.on("chat event", (data) => {
     addNewLineOnChat(data);
 })
 
-socket.on("new nickname", (nickname) => {
-    handleNewNickname(nickname)
-});
-
 socket.on("message list", (data) => {
     messageList = data.messageList;
     renderMessageList();
@@ -62,7 +73,12 @@ socket.on("message list", (data) => {
 
 socket.on("user is typing", (data) => {
     handleTip(`${data.nickname} is typing...`);
-})
+});
+
+socket.on("update userList", (data) => {
+    updateUserList(data);
+    renderOnlineUsers();
+});
 
 function renderMessageList() {
     messageList.map(message => {
@@ -85,9 +101,11 @@ function addNewLineOnChat(content) {
     window.scrollTo(0, document.body.scrollHeight);
 }
 
-function handleNewNickname(nickname) {
-    // modal.hidden = true;
-    userList.push(nickname);
+function updateUserList(users) {
+    userList = [];
+    users.map(user => {
+        userList.push(user.nickname);
+    });
 }
 
 function setTipMessage(message) {
@@ -123,4 +141,15 @@ function endTipAnimation() {
     setTimeout(() => {
         tip.hidden = true;
     }, 200);
+}
+
+function renderOnlineUsers() {
+    onlineUsersUlModal.innerHTML = "";
+    let liElement;
+
+    userList.map((userName) => {
+        liElement = document.createElement('li');
+        liElement.textContent = userName;
+        onlineUsersUlModal.appendChild(liElement);
+    });
 }
