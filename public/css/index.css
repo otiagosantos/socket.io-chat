@@ -53,6 +53,9 @@ body {
     background: #efefef;
 }
 
+
+/*Tip messages*/
+
 .tip {
     position: fixed;
     top: 30px;
@@ -93,4 +96,20 @@ body {
 
 .tip p {
     margin: 5px 10px;
+}
+
+/* Online users modal */
+
+#online-users-modal {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    /* width: 500px; */
+    
+    background-color: #f5f5f5;
+    border: 2px solid #333;
+    border-radius: 10px;
+    padding: 20px;
 }

@@ -17,14 +17,16 @@ io.on("connection", (socket) => {
     // socket.broadcast.emit("chat event", {"someone conected"});
 
     socket.emit("message list", {messageList});
+    socket.emit("update userList", userList);
 
     socket.on("disconnect", () => {
+        console.log("disconnect id: "+socket.id)
         const outUser = userList.find(user => user.id == socket.id);
 
         if(outUser) {
-            socket.broadcast.emit("chat event", `${outUser.nickname} disconected`);
             const index = userList.indexOf(outUser);
-            userList.slice(index, 1);
+            userList.splice(index, 1);
+            io.emit("update userList", userList);
         }
     });
 
@@ -46,9 +48,7 @@ io.on("connection", (socket) => {
         }
     })
 
-    socket.on("new nickname", (nickname) => {
-        socket.emit("new nickname", nickname);
-
+    socket.on("new nickname", (nickname) => {        
         let userExists = userList.find(user => user.nickname == nickname);
 
         if(userExists) {
@@ -59,6 +59,8 @@ io.on("connection", (socket) => {
             const user = new User(socket.id, nickname);
             userList.push(user);
         }
+
+        io.emit("update userList", userList);
     });
 
     socket.on("user is typing", () => {
@@ -68,5 +70,5 @@ io.on("connection", (socket) => {
             socket.broadcast.emit("user is typing", {nickname: referredUser.nickname});
         }
         
-    })
+    });
 });
