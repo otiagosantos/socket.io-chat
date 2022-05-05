@@ -59,5 +59,14 @@ io.on("connection", (socket) => {
             const user = new User(socket.id, nickname);
             userList.push(user);
         }
+    });
+
+    socket.on("user is typing", () => {
+        console.log("User is typing");
+        const referredUser = userList.find(user => user.id == socket.id);
+        if(referredUser){
+            socket.broadcast.emit("user is typing", {nickname: referredUser.nickname});
+        }
+        
     })
 });

@@ -52,3 +52,45 @@ body {
 #messages>li:nth-child(odd) {
     background: #efefef;
 }
+
+.tip {
+    position: fixed;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    background-color: #333;
+    color: #efefef;
+    border: 1px solid #efefef;
+    border-radius: 10px;
+
+    min-width: 70px;
+    min-height: 30px;
+
+    padding: 0;
+    box-sizing: border-box;
+    animation-duration: 200ms;
+    animation-timing-function: ease-out;
+}
+
+.tip.start-animation {
+    animation-name: startTipAnimation;
+}
+
+.tip.end-animation {
+    animation-name: endTipAnimation;
+}
+
+@keyframes startTipAnimation {
+    0% { top: -70px; }
+    100% { top: 30px; }
+}
+
+@keyframes endTipAnimation {
+    0% { top: 30px; }
+    100% { top: -70px; }
+}
+
+.tip p {
+    margin: 5px 10px;
+}
