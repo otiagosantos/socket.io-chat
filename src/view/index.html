@@ -12,9 +12,28 @@
     <script src="/js/index.js" defer></script>
 </head>
 <body>
+    <div class="tip" hidden>
+        <p>Hello</p>
+    </div>
 
     <main id="page-main">
         <div class="info-window">
+
+            <div class="modal-container">
+                <form id="user-form">
+                    <label for="nickname-input">Guest nickname</label>
+                    <input type="text" name="nickname" id="nickname-input">
+                </form>
+            </div>
+
+            <button class="btn" id="online-users-btn">Online users</button>
+            <div id="online-users-modal" hidden>
+                <h3>Usuários online</h3>
+                <ul>
+
+                </ul>
+            </div>
+
             <ul id="messages">
 
             </ul>
