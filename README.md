@@ -22,7 +22,7 @@ Socket.io Chat é uma aplicação de estudo para troca de mensagens em tempo rea
 * [x] O servidor não envia de volta um evento de mensagem para o usuário que a enviou. Apenas o lado da interface do clinete anexa a mensagem na tela ao pressionar 'enter'.
 * [x] Mostra em tela quando algum usuário do chat está digitando.
 * [x] Mostra em tela quem está online.
-* [] Mensagens privadas. (**Em desenvolvimento**)
+* [ ] Mensagens privadas. (**Em desenvolvimento**)
 
 ## Adições futuras
 As adições futuras serão funcionalidades extras, planejadas além dos requisitos sugeridos.
