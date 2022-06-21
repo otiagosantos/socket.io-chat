@@ -18,6 +18,7 @@ let tipMessage = document.querySelector(".tip p");
 let typingTimer = 0;
 
 let onlineUsersButton = document.querySelector("#online-users-btn");
+let clearChatButton = document.querySelector("#clear-chat-btn");
 
 let onlineUsersModal = document.querySelector("#online-users-modal");
 let onlineUsersUlModal = document.querySelector("#online-users-modal ul");
@@ -46,6 +47,7 @@ userForm.addEventListener('submit', (event) => {
         LoggedAs = nicknameInput.value;
         nicknameInput.value = '';
         renderOnlineUsers();
+        handleClearChatButton();
     }
 });
 
@@ -56,6 +58,10 @@ input.addEventListener('keyup', () => {
 
 onlineUsersButton.addEventListener("click", (event) => {
     onlineUsersModal.hidden = !onlineUsersModal.hidden;
+});
+
+clearChatButton.addEventListener("click", () => {
+    socket.emit("clear chat");
 });
 
 socket.on("chat message", (data) => {
@@ -81,6 +87,7 @@ socket.on("update userList", (data) => {
 });
 
 function renderMessageList() {
+    messages.innerHTML = "";
     messageList.map(message => {
         addNewLineOnChat(message);
     });
@@ -152,4 +159,12 @@ function renderOnlineUsers() {
         liElement.textContent = userName;
         onlineUsersUlModal.appendChild(liElement);
     });
+}
+
+function handleClearChatButton() {
+    if(LoggedAs == "admin") {
+        clearChatButton.hidden = false;
+    } else {
+        clearChatButton.hidden = true;
+    }
 }
