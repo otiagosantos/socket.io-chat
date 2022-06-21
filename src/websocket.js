@@ -70,4 +70,9 @@ io.on("connection", (socket) => {
         }
         
     });
+
+    socket.on("clear chat", () => {
+        messageList = [];
+        io.emit("message list", {messageList});
+    })
 });
