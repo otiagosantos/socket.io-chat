@@ -81,6 +81,7 @@ socket.on("update userList", (data) => {
 });
 
 function renderMessageList() {
+    messages.innerHTML = "";
     messageList.map(message => {
         addNewLineOnChat(message);
     });
